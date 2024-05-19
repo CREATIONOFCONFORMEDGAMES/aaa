@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fff;
+        }
+        .logo {
+            display: flex;
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .logo span:nth-child(1) {
+            color: #4285F4;
+        }
+        .logo span:nth-child(2) {
+            color: #EA4335;
+        }
+        .logo span:nth-child(3) {
+            color: #FBBC05;
+        }
+        .logo span:nth-child(4) {
+            color: #4285F4;
+        }
+        .logo span:nth-child(5) {
+            color: #34A853;
+        }
+        .logo span:nth-child(6) {
+            color: #EA4335;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 584px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            padding: 5px 10px;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        }
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .search-bar button {
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        .search-bar button img {
+            width: 24px;
+            height: 24px;
+        }
+        .shortcuts {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .shortcut {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .shortcut-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .shortcut span {
+            font-size: 24px;
+            color: #333;
+            position: absolute;
+        }
+        .shortcut p {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+        }
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            border: none;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: modalfade 0.3s;
+        }
+        @keyframes modalfade {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .close {
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #333;
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-body label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .modal-body input {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        .modal-body input:focus {
+            border-color: #4285f4;
+            outline: none;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .modal-footer button {
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .modal-footer button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Buscar en la web...">
+        <button onclick="search()">
+            <img src="https://www.iconpacks.net/icons/2/free-search-icon-2903-thumb.png" alt="Buscar">
+        </button>
+    </div>
+    <div class="shortcuts" id="shortcuts-container">
+        <div class="shortcut" onclick="openModal()">
+            <div class="shortcut-circle">
+                <span>+</span>
+            </div>
+            <p>Acceso directo</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agregar acceso directo</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="shortcut-name">Nombre:</label>
+                <input type="text" id="shortcut-name" name="shortcut-name" required>
+                <label for="shortcut-url">URL:</label>
+                <input type="url" id="shortcut-url" name="shortcut-url" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="addShortcut()">Agregar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function search() {
+            const query = document.getElementById('search-input').value;
+            if (query) {
+                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        function openModal() {
+            document.getElementById('myModal').style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = "none";
+        }
+
+        function addShortcut() {
+            const name = document.getElementById('shortcut-name').value;
+            const url = document.getElementById('shortcut-url').value;
+            if (name && url) {
+                const shortcutsContainer = document.getElementById('shortcuts-container');
+                const shortcutElement = document.createElement('div');
+                shortcutElement.className = 'shortcut';
+                shortcutElement.innerHTML = `
+                    <a href="${url}" target="_blank" class="shortcut-link">
+                        <div class="shortcut-circle">
+                            <span>${name[0]}</span>
+                        </div>
+                        <p>${name}</p>
+                    </a>
+                `;
+                shortcutsContainer.appendChild(shortcutElement);
+                closeModal();
+            } else {
+                alert('Por favor, complete todos los campos.');
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
